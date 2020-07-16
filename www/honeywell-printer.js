@@ -11,7 +11,7 @@ var exec        = require('cordova/exec'),
 var honeywell = function() {};
 
 honeywell.prototype.printImage = function (imagePath, success, error) {
-    exec(success, error, 'HoneywellPrinter', 'printImage', [imagePath]);
+    exec(success, error, 'HoneywellPrinter', 'printImage', [imagePath,'192.168.2.12']);
 };
 
 if (!window.plugins) {

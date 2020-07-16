@@ -15,18 +15,19 @@ public class HoneywellPrinter extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("printImage")) {
-            String imagePath = args.getString(0);
-            this.printImage(imagePath, callbackContext);
+            //String imagePath = args.getString(0);
+            byte[] imagebitData = args.getString(0);
+            this.printImage(imagebitData, callbackContext);
             return true;
         }
         return false;
     }
 
-    private void printImage(String imagePath, CallbackContext callbackContext) {
+    private void printImage(byte[] imagebitData, CallbackContext callbackContext) {
         if (imagePath != null && imagePath.length() > 0) {
             //todo 实现打印
             
-            callbackContext.success(imagePath);
+            callbackContext.success("打印指令发送OK.");
         } else {
             callbackContext.error("必须传入图片本地路径.");
         }
