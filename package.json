@@ -1,0 +1,58 @@
+{
+  "_from": "git+https://github.com/lulouis/cordova-plugin-honeywell-printer.git",
+  "_id": "cordova-plugin-honeywell-printer@1.0.1",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/cordova-plugin-honeywell-printer",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "git+https://github.com/lulouis/cordova-plugin-honeywell-printer.git",
+    "rawSpec": "git+https://github.com/lulouis/cordova-plugin-honeywell-printer.git",
+    "saveSpec": "git+https://github.com/lulouis/cordova-plugin-honeywell-printer.git",
+    "fetchSpec": "https://github.com/lulouis/cordova-plugin-honeywell-printer.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/lulouis/cordova-plugin-honeywell-printer.git",
+  "_spec": "git+https://github.com/lulouis/cordova-plugin-honeywell-printer.git",
+  "author": {
+    "name": "louis"
+  },
+
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-honeywell-printer",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "霍尼韦尔打印机-手机打印",
+  "devDependencies": {
+    "eslint": "^3.19.0"
+  },
+  "homepage": "https://github.com/lulouis/cordova-plugin-honeywell-printer#readme",
+  "keywords": [
+    "cordova",
+    "printer",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "license": "Apache-2.0",
+  "name": "cordova-plugin-honeywell-printer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lulouis/cordova-plugin-honeywell-printer.git"
+  },
+  "scripts": {
+    "eslint": "node node_modules/eslint/bin/eslint www && node node_modules/eslint/bin/eslint src && node node_modules/eslint/bin/eslint tests",
+    "test": "npm run eslint"
+  },
+  "version": "1.0.1"
+}
