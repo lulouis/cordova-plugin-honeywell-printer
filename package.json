@@ -34,7 +34,7 @@
   "deprecated": false,
   "description": "霍尼韦尔打印机-手机打印",
   "devDependencies": {
-    "eslint": "^3.19.0"
+    "eslint": "^7.4.0"
   },
   "homepage": "https://github.com/lulouis/cordova-plugin-honeywell-printer#readme",
   "keywords": [
