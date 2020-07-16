@@ -8,6 +8,18 @@ var exec        = require('cordova/exec'),
     isWinPC     = isWin && Windows.System.Profile.AnalyticsInfo.versionInfo.deviceFamily.includes('Desktop'),
     isDesktop   = isMac || isWinPC;
 
-exports.printImage = function (imagePath, success, error) {
+var honeywell = function() {};
+
+honeywell.prototype.printImage = function (imagePath, success, error) {
     exec(success, error, 'HoneywellPrinter', 'printImage', [imagePath]);
 };
+
+if (!window.plugins) {
+    window.plugins = {};
+}
+  
+if (!window.plugins.honeywell) {
+    window.plugins.honeywell = new honeywell();
+}
+
+module.exports = new honeywell();

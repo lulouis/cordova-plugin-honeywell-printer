@@ -13,7 +13,7 @@
 			</feature>
 		</config-file>
 		<config-file parent="/*" target="AndroidManifest.xml" />
-		<source-file src="src/android/honeywell-printer.java" target-dir="src/honeywell/printer" />
+		<source-file src="src/android/HoneywellPrinter.java" target-dir="src/honeywell/printer" />
 	</platform>
 	<platform name="ios">
 		<config-file parent="/*" target="config.xml">
