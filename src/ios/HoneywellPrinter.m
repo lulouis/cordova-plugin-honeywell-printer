@@ -69,9 +69,6 @@
     NSLog(@"打印指令发送OK");
 }
 
-@end
-
-
 //参考文件   https://www.jianshu.com/p/1c27afb3a933 
 #pragma mark - NSStreamDelegate
 -(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode{
@@ -83,7 +80,6 @@
             
         case NSStreamEventHasBytesAvailable:
             NSLog(@"客户端有字节可读");
-            [self readData];
             break;
             
         case NSStreamEventHasSpaceAvailable:
@@ -109,3 +105,5 @@
             
     }
 }
+@end
+
