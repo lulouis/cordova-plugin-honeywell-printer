@@ -2,7 +2,7 @@
 
 #import <Cordova/CDV.h>
 
-@interface HoneywellPrinter : CDVPlugin {
+@interface HoneywellPrinter : CDVPlugin<NSStreamDelegate> {
   // Member variables go here.
     NSInputStream *inputStream;
     NSOutputStream *outputStream;
@@ -34,14 +34,13 @@
         return
     }
     //打印机连接
-    [HoneywellPrinter connectServer:hostAddr];
-    [HoneywellPrinter sendSocket:imagebitData];
+    [self connectServer:hostAddr];
+
+    [self sendSocket:imagebitData];
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"打印指令发送OK"];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
-
-@end
 
 - (void)connectServer:(NSString*)host{
 
@@ -65,6 +64,48 @@
 }
 
 - (void)sendSocket:(NSData*)msgData{
+    //内容组装
     [outputStream write:msgData.bytes maxLength:msgData.length];
     NSLog(@"打印指令发送OK");
+}
+
+@end
+
+
+//参考文件   https://www.jianshu.com/p/1c27afb3a933 
+#pragma mark - NSStreamDelegate
+-(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode{
+    switch(eventCode) {
+            
+        case NSStreamEventOpenCompleted:
+            NSLog(@"客户端输入输出流打开完成");
+            break;
+            
+        case NSStreamEventHasBytesAvailable:
+            NSLog(@"客户端有字节可读");
+            [self readData];
+            break;
+            
+        case NSStreamEventHasSpaceAvailable:
+            NSLog(@"客户端可以发送字节");
+            break;
+            
+        case NSStreamEventErrorOccurred:
+            NSLog(@"客户端连接出现错误");
+            break;
+            
+        case NSStreamEventEndEncountered:
+            NSLog(@"客户端连接结束");
+            //关闭输入输出流
+            [inputStream close];
+            [outputStream close];
+            
+            //从主运行循环移除
+            [inputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+            [outputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+            break;
+        default:
+            break;
+            
+    }
 }
