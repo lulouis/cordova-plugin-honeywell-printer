@@ -37,6 +37,12 @@
     [self connectServer:hostAddr];
 
     [self sendSocket:imagebitData];
+    
+    [inputStream close];
+    [outputStream close];
+    //从主运行循环移除
+    [inputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    [outputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"打印指令发送OK"];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
