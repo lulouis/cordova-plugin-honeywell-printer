@@ -18,20 +18,20 @@
     //定义返回
     CDVPluginResult* pluginResult = nil;
     //参数获取
-    NSData* imagebitData = [command.arguments objectAtIndex:0];
+    NSArray* imagebitData = [command.arguments objectAtIndex:0];
     NSString* hostAddr = [command.arguments objectAtIndex:1];
     //参数检查
     if (hostAddr == nil || [hostAddr length] == 0) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"打印网络IP不正确"];
     }
 
-    if (imagebitData == nil || [imagebitData length] == 0) {
+    if (imagebitData == nil) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
     }
 
     if(pluginResult != nil) {
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-        return
+        return;
     }
     //打印机连接
     [self connectServer:hostAddr];
@@ -69,9 +69,21 @@
     [outputStream open];
 }
 
-- (void)sendSocket:(NSData*)msgData{
-    //内容组装
-    [outputStream write:msgData.bytes maxLength:msgData.length];
+- (void)sendSocket:(NSArray*)msgData{
+    //默认为正序遍历
+    long int count = [msgData count];
+    for (int i = 0 ; i < count; i++) {
+        NSString *msg = [msgData objectAtIndex:i];
+        if ([msg hasPrefix:@"data:image/bmp;base64,"]) {
+            NSString*base64String = [msg stringByReplacingOccurrencesOfString:@"data:image/bmp;base64,"withString:@""];
+            NSData *byteData = [[NSData alloc] initWithBase64EncodedString:base64String options:NSDataBase64DecodingIgnoreUnknownCharacters];
+            [outputStream write:byteData.bytes maxLength:byteData.length];
+        } else {
+            NSString *msg = [msgData objectAtIndex:i];
+            NSData *byteData = [msg dataUsingEncoding:NSUTF8StringEncoding];
+            [outputStream write:byteData.bytes maxLength:byteData.length];
+        }
+    }
     NSLog(@"打印指令发送OK");
 }
 
