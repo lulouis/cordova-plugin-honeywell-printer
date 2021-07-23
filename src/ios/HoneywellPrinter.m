@@ -7,8 +7,11 @@
     NSInputStream *inputStream;
     NSOutputStream *outputStream;
 }
-
+//support to send DP command (with BMP format)
 - (void)printImage:(CDVInvokedUrlCommand*)command;
+//support to send DP command
+- (void)sendCommand:(CDVInvokedUrlCommand*)command;
+
 @end
 
 @implementation HoneywellPrinter
@@ -37,6 +40,42 @@
     [self connectServer:hostAddr];
 
     [self sendSocket:imagebitData];
+    
+    [inputStream close];
+    [outputStream close];
+    //从主运行循环移除
+    [inputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    [outputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"打印指令发送OK"];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+//support to send DP command
+- (void)sendCommand:(CDVInvokedUrlCommand*)command
+{
+    //定义返回
+    CDVPluginResult* pluginResult = nil;
+    //参数获取
+    NSArray* commandList = [command.arguments objectAtIndex:0];
+    NSString* hostAddr = [command.arguments objectAtIndex:1];
+    //参数检查
+    if (hostAddr == nil || [hostAddr length] == 0) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"打印网络IP不正确"];
+    }
+
+    if (commandList == nil) {
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"请按照DP指令集格式传入"];
+    }
+
+    if(pluginResult != nil) {
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        return;
+    }
+    //打印机连接
+    [self connectServer:hostAddr];
+    //发送指令集
+    [self sendSocket:commandList];
     
     [inputStream close];
     [outputStream close];
@@ -79,7 +118,6 @@
             NSData *byteData = [[NSData alloc] initWithBase64EncodedString:base64String options:NSDataBase64DecodingIgnoreUnknownCharacters];
             [outputStream write:byteData.bytes maxLength:byteData.length];
         } else {
-            NSString *msg = [msgData objectAtIndex:i];
             NSData *byteData = [msg dataUsingEncoding:NSUTF8StringEncoding];
             [outputStream write:byteData.bytes maxLength:byteData.length];
         }

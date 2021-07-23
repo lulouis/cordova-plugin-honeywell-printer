@@ -2,7 +2,8 @@
 
 A Cordova plugin to print images in Android and iOS , our plugin just supports Honeywell printer models now .
 
-本插件可用于手机端打印，打印机型号目前支持霍尼韦尔PC42t.
+本插件可用于手机端打印，打印机型号:
+霍尼韦尔 PC42t.
 
 ## Installation
 

@@ -14,6 +14,11 @@ honeywell.prototype.printImage = function (bitmap,ipAddr, success, error) {
     exec(success, error, 'HoneywellPrinter', 'printImage', [bitmap,ipAddr]);
 };
 
+//support to send DP command
+honeywell.prototype.sendCommand = function (commandList,ipAddr, success, error) {
+    exec(success, error, 'HoneywellPrinter', 'sendCommand', [commandList,ipAddr]);
+};
+
 if (!window.plugins) {
     window.plugins = {};
 }
