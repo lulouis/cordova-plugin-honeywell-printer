@@ -1,4 +1,5 @@
 var exec        = require('cordova/exec'),
+    channel     = require('cordova/channel'),
     ua          = navigator.userAgent.toLowerCase(),
     isIOS       = ua.indexOf('ipad') > -1 || ua.indexOf('iphone') > -1,
     isIPAD      = ua.indexOf('ipad') > -1,
@@ -10,13 +11,13 @@ var exec        = require('cordova/exec'),
 
 var honeywell = function() {};
 
-honeywell.prototype.printImage = function (bitmap,ipAddr, success, error) {
-    exec(success, error, 'HoneywellPrinter', 'printImage', [bitmap,ipAddr]);
+honeywell.prototype.printImage = function (bitmap,ipAddr,port,success, error) {
+    exec(success, error, 'HoneywellPrinter', 'printImage', [bitmap,ipAddr,port]);
 };
 
 //support to send DP command
-honeywell.prototype.sendCommand = function (commandList,ipAddr, success, error) {
-    exec(success, error, 'HoneywellPrinter', 'sendCommand', [commandList,ipAddr]);
+honeywell.prototype.sendCommand = function (commandList,ipAddr,port, success, error) {
+    exec(success, error, 'HoneywellPrinter', 'sendCommand', [commandList,ipAddr,port]);
 };
 
 if (!window.plugins) {

@@ -11,7 +11,6 @@
 - (void)printImage:(CDVInvokedUrlCommand*)command;
 //support to send DP command
 - (void)sendCommand:(CDVInvokedUrlCommand*)command;
-
 @end
 
 @implementation HoneywellPrinter
@@ -23,6 +22,7 @@
     //参数获取
     NSArray* imagebitData = [command.arguments objectAtIndex:0];
     NSString* hostAddr = [command.arguments objectAtIndex:1];
+    NSInteger* port = [command.arguments objectAtIndex:2];
     //参数检查
     if (hostAddr == nil || [hostAddr length] == 0) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"打印网络IP不正确"];
@@ -37,7 +37,7 @@
         return;
     }
     //打印机连接
-    [self connectServer:hostAddr];
+    [self connectServer:hostAddr:port];
 
     [self sendSocket:imagebitData];
     
@@ -59,6 +59,7 @@
     //参数获取
     NSArray* commandList = [command.arguments objectAtIndex:0];
     NSString* hostAddr = [command.arguments objectAtIndex:1];
+    NSInteger* port = [command.arguments objectAtIndex:2];
     //参数检查
     if (hostAddr == nil || [hostAddr length] == 0) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"打印网络IP不正确"];
@@ -73,7 +74,7 @@
         return;
     }
     //打印机连接
-    [self connectServer:hostAddr];
+    [self connectServer:hostAddr:port];
     //发送指令集
     [self sendSocket:commandList];
     
@@ -87,9 +88,10 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void)connectServer:(NSString*)host{
-
-    int port = 9100;
+- (void)connectServer:(NSString*)host:(NSInteger*)port{
+    if (port == 0) {
+        port = 9100;
+    }
     // 1.创建输入输出流，设置代理
     CFReadStreamRef readStreamRef;
     CFWriteStreamRef writeStreamRef;

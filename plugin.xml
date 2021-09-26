@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<plugin id="cordova-plugin-honeywell-printer" version="1.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
-	<name>
-		honeywell-printer
-	</name>
-	<js-module name="honeywell-printer" src="www/honeywell-printer.js">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	id="cordova-plugin-honeywell-printer" 
+	version="1.0.1" >
+	<name>HoneywellPrinter</name>
+	<description>Cordova Honeywell socket command sender plugin</description>
+	<license>Apache 2.0</license>
+    <keywords>cordova,Honeywell,printer,pt42c</keywords>
+	<js-module name="HoneywellPrinter" src="www/HoneywellPrinter.js">
 		<clobbers target="HoneywellPrinter" />
 	</js-module>
 	<platform name="android">
