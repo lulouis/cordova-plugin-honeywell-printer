@@ -22,7 +22,7 @@
     //参数获取
     NSArray* imagebitData = [command.arguments objectAtIndex:0];
     NSString* hostAddr = [command.arguments objectAtIndex:1];
-    int portAddr = [[command.arguments objectAtIndex:2] intValue];
+    int port = [[command.arguments objectAtIndex:2] intValue];
     //参数检查
     if (hostAddr == nil || [hostAddr length] == 0) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"打印网络IP不正确"];
@@ -37,7 +37,7 @@
         return;
     }
     //打印机连接
-    [self connectServer:hostAddr:portAddr];
+    [self connectServer:hostAddr:port];
 
     [self sendSocket:imagebitData];
     
@@ -59,7 +59,7 @@
     //参数获取
     NSArray* commandList = [command.arguments objectAtIndex:0];
     NSString* hostAddr = [command.arguments objectAtIndex:1];
-    int portAddr = [[command.arguments objectAtIndex:2] intValue];
+    int port = [[command.arguments objectAtIndex:2] intValue];
     //参数检查
     if (hostAddr == nil || [hostAddr length] == 0) {
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"打印网络IP不正确"];
@@ -74,7 +74,7 @@
         return;
     }
     //打印机连接
-    [self connectServer:hostAddr:portAddr];
+    [self connectServer:hostAddr:port];
     //发送指令集
     [self sendSocket:commandList];
     
@@ -127,7 +127,7 @@
     NSLog(@"打印指令发送OK");
 }
 
-//参考文件   https://www.jianshu.com/p/1c27afb3a933 
+//参考文件   https://www.jianshu.com/p/1c27afb3a933
 #pragma mark - NSStreamDelegate
 -(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode{
     switch(eventCode) {
